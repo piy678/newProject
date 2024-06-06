@@ -52,9 +52,21 @@ public class TicTacToe {
     public boolean hasWinner() {
         return board.checkForWin(currentPlayer.getMaker());
     }
+    public boolean isValidMove(int row, int col) {
+        return row >= 0 && row < 3 && col >= 0 && col < 3 && board.isCellEmpty(row, col);
+    }
+
+
+    public Player getCurrentPlayer() {
+        return currentPlayer;
+    }
 
     public static void main(String[] args) {
         TicTacToe game = new TicTacToe();
         game.start();
+    }
+
+    public Board getBoard() {
+        return board;
     }
 }

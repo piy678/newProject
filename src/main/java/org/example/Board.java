@@ -59,6 +59,10 @@ public class Board {
         return false;
     }
 
+    public char[][] getCells() {
+        return cells;
+    }
+
     private boolean checkColumnsForWin(char maker) {
         for (int i = 0; i < 3; i++) {
             if (cells[0][i] == maker && cells[1][i] == maker && cells[2][i] == maker) {
