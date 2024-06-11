@@ -39,7 +39,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: v1.0.0
+        tag_name: v1.0.2  # Beispiel für eine fortlaufende Nummerierung
         release_name: Release ${{ github.sha }}
         draft: false
         prerelease: false
@@ -53,3 +53,4 @@ jobs:
         asset_path: ./target/your-project.jar
         asset_name: your-project.jar
         asset_content_type: application/java-archive
+
