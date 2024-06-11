@@ -10,7 +10,7 @@ on:
       - 'master'
       - 'feature/*'  # Reagiere auch auf Pull-Requests von Feature-Branches
 
-permissions:
+permissions:  # Diese Sektion sollte direkt unter 'on:' stehen
   contents: read
   dependencies: write  # Stellt sicher, dass die Action die Berechtigung hat, den Abhängigkeits-Snapshot zu übermitteln
 
