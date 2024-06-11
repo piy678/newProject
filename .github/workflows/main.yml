@@ -9,6 +9,8 @@ on:
     branches:
       - 'master'
       - 'feature/*'  # Reagiere auch auf Pull-Requests von Feature-Branches
+  release:
+    types: [published]
 
 jobs:
   build:
@@ -36,8 +38,6 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        upload_url: ${{ github.event.release.upload_url }}
         asset_path: ./target/your-project.jar
         asset_name: your-project.jar
         asset_content_type: application/java-archive
-
