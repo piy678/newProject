@@ -4,11 +4,11 @@ on:
   push:
     branches:
       - 'master'
-      - 'feature/*'  # Reagiere auch auf Änderungen in Feature-Branches
+      - 'feature/*'
   pull_request:
     branches:
       - 'master'
-      - 'feature/*'  # Reagiere auch auf Pull-Requests von Feature-Branches
+      - 'feature/*'
   release:
     types: [published]
 
@@ -32,14 +32,24 @@ jobs:
     - name: Update dependency graph
       uses: advanced-security/maven-dependency-submission-action@571e99aab1055c2e71a1e2309b9691de18d6b7d6
 
-    # Hochladen der JAR-Datei zu GitHub Releases
-    - name: Upload JAR to GitHub Releases
-      id: upload-jar
+    # Create GitHub Release and Upload Release Asset
+    - name: Create and Upload Release Asset
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: v1.0.0
+        release_name: Release ${{ github.sha }}
+        draft: false
+        prerelease: false
+
+    - name: Upload Release Asset
       uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        upload_url: ${{ github.event.release.upload_url }}
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
         asset_path: ./target/your-project.jar
         asset_name: your-project.jar
         asset_content_type: application/java-archive
