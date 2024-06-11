@@ -9,6 +9,8 @@ on:
     branches:
       - 'master'
       - 'feature/*'  # Reagiere auch auf Pull-Requests von Feature-Branches
+  release:
+    types: [published]
 
 jobs:
   build:
@@ -32,6 +34,7 @@ jobs:
 
     # Hochladen der JAR-Datei zu GitHub Releases
     - name: Upload JAR to GitHub Releases
+      id: upload-jar
       uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
