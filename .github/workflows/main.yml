@@ -1,4 +1,4 @@
-name: Java CI with Maven
+name: Update Release with Jar
 
 on:
   push:
@@ -6,25 +6,35 @@ on:
       - 'main'
 
 jobs:
-  build:
+  update-release:
 
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v2
     - name: Set up JDK 17
-      uses: actions/setup-java@v3
+      uses: actions/setup-java@v2
       with:
         java-version: '17'
-        distribution: 'temurin'
-        cache: maven
     - name: Build with Maven
       run: mvn -B package --file pom.xml
-    - name: Upload .jar file
-      uses: actions/upload-release-asset@v1
+    - name: Create or Update Release
+      id: create_or_update_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        upload_url: ${{ github.event.release.upload_url }}
-        asset_path: target/*.jar
-        asset_name: your-project-$(date +'%Y%m%d%H%M%S').jar  # Verwende das aktuelle Datum und die Uhrzeit als Teil des Dateinamens
+        tag_name: v1.0  # Dein Release-Tag hier
+        release_name: Release v1.0  # Der Name deines Releases
+        body: New Release
+        draft: false
+        prerelease: false
+    - name: Upload asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_or_update_release.outputs.upload_url }}
+        asset_path: ./target/your-project.jar
+        asset_name: your-project.jar
         asset_content_type: application/java-archive
-        token: ${{ secrets.GITHUB_TOKEN }}
