@@ -3,8 +3,7 @@ name: Test Feature Branches
 on:
   push:
     branches:
-      - master
-      - 'feature/*'  # Reagiere auch auf Änderungen in Feature-Branches
+      - 'feature/*'  # Reagiere nur auf Änderungen in Feature-Branches
 
 jobs:
   build-and-test:
