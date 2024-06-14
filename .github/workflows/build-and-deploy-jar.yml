@@ -19,8 +19,6 @@ jobs:
           java-version: 22
 
       - name: Build and Deploy Jar
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/master'
         run: |
-          mvn package
-          # Hier den Befehl zum Hochladen oder Bereitstellen des JAR-Archivs einfügen
-          echo "Deploying JAR to production..."
+          mvn deploy
