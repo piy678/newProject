@@ -1,0 +1,26 @@
+name: Build and Deploy Jar on Main
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up JDK
+        uses: actions/setup-java@v2
+        with:
+          java-version: 22
+
+      - name: Build and Deploy Jar
+        if: github.ref == 'refs/heads/main'
+        run: |
+          mvn package
+          # Hier den Befehl zum Hochladen oder Bereitstellen des JAR-Archivs einfügen
+          echo "Deploying JAR to production..."
