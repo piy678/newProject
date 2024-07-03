@@ -76,7 +76,7 @@ public class TicTacToe {
     public boolean hasWinner() {
         char[][] cells = board.cells;
 
-        // Check rows and columns
+
         for (int i = 0; i < 3; i++) {
             if ((cells[i][0] == cells[i][1] && cells[i][1] == cells[i][2] && cells[i][0] != ' ') ||
                     (cells[0][i] == cells[1][i] && cells[1][i] == cells[2][i] && cells[0][i] != ' ')) {
@@ -84,7 +84,7 @@ public class TicTacToe {
             }
         }
 
-        // Check diagonals
+
         if ((cells[0][0] == cells[1][1] && cells[1][1] == cells[2][2] && cells[0][0] != ' ') ||
                 (cells[0][2] == cells[1][1] && cells[1][1] == cells[2][0] && cells[0][2] != ' ')) {
             return true;

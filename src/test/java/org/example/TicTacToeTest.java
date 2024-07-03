@@ -34,7 +34,7 @@ public class TicTacToeTest {
 
     @Test
     public void testGamePlayWithValidMoves() {
-        String input = "0 0\n0 1\n1 1\n0 2\n2 2\n"; // Simulated user input
+        String input = "0 0\n0 1\n1 1\n0 2\n2 2\n";
         simulateUserInput(input);
         assertDoesNotThrow(() -> game.start());
 
@@ -44,7 +44,7 @@ public class TicTacToeTest {
 
     @Test
     public void testGamePlayWithInvalidMoves() {
-        String input = "-1 1\n3 3\n0 0\n0 0\n"; // Simulierte Benutzereingabe
+        String input = "-1 1\n3 3\n0 0\n0 0\n";
         simulateUserInput(input);
 
         Assertions.assertThrows(NoSuchElementException.class, () -> game.start());
@@ -56,7 +56,7 @@ public class TicTacToeTest {
 
     @Test
     public void testConstructorWithInvalidParameters() {
-        assertDoesNotThrow(() -> new TicTacToe()); // Konstruktor sollte keine Ausnahme werfen
+        assertDoesNotThrow(() -> new TicTacToe());
     }
 
     @Test

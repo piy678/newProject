@@ -37,8 +37,8 @@ public class BoardTest {
     public void testBoardPlaceNegative() {
         Board board = new Board();
         board.place(0, 0, 'X');
-        board.place(0, 0, 'O'); // Attempt to place on an already filled cell
-        assertEquals('X', board.cells[0][0]); // Should remain 'X'
+        board.place(0, 0, 'O');
+        assertEquals('X', board.cells[0][0]);
     }
 
     @Test
@@ -106,7 +106,7 @@ public class BoardTest {
         board.place(0, 0, 'X');
         board.place(1, 1, 'O');
 
-        // Capture the output
+
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         PrintStream originalOut = System.out;
         System.setOut(new PrintStream(outContent));
