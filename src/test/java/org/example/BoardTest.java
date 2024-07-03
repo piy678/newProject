@@ -81,14 +81,14 @@ public class BoardTest {
         board.place(0, 0, 'X');
         board.place(1, 1, 'O');
 
-        // Capture the output
+
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         PrintStream originalOut = System.out;
         System.setOut(new PrintStream(outContent));
 
         board.print();
 
-        // Restore the original System.out
+
         System.setOut(originalOut);
 
         String expectedOutput =
@@ -113,7 +113,7 @@ public class BoardTest {
 
         board.print();
 
-        // Restore the original System.out
+
         System.setOut(originalOut);
 
         String incorrectOutput =
@@ -121,8 +121,7 @@ public class BoardTest {
                         "-----\n" +
                         " |X| \n" +
                         "-----\n" +
-                        " | | \n";  // Intentionally incorrect expected output
-
+                        " | | \n";
         assertNotEquals(incorrectOutput, outContent.toString());
     }
 }

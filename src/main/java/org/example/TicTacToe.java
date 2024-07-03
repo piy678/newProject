@@ -30,7 +30,7 @@ public class TicTacToe {
             System.out.println("Player " + currentPlayer.getMarker() + ", enter your move (row and column): ");
 
             try {
-                // Check if there is a next line available
+
                 if (scanner.hasNextLine()) {
                     int row = scanner.nextInt();
                     int col = scanner.nextInt();
@@ -48,16 +48,16 @@ public class TicTacToe {
                         }
                     }
                 } else {
-                    // Handle case where no input line is found
+
                     System.out.println("No input received. Please provide valid input.");
-                    scanner.nextLine(); // Clear the invalid input from the scanner
+                    scanner.nextLine();
                 }
             } catch (InputMismatchException e) {
                 System.out.println("Invalid input. Please enter two integers for row and column.");
-                scanner.nextLine(); // Clear the invalid input from the scanner
+                scanner.nextLine();
             } catch (NoSuchElementException e) {
                 System.out.println("Input error. Please provide valid input.");
-                scanner.nextLine(); // Clear the invalid input from the scanner
+                scanner.nextLine();
             }
         }
 

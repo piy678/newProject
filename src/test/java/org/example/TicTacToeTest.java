@@ -49,7 +49,7 @@ public class TicTacToeTest {
 
         Assertions.assertThrows(NoSuchElementException.class, () -> game.start());
 
-        // Nachdem eine ungültige Eingabe gemacht wurde, sollte das Spielbrett nicht voll sein
+
         assertEquals(game.board.isFull(), false, "Das Spielbrett sollte nicht voll sein");
         assertFalse(game.hasWinner(), "Es sollte keinen Gewinner geben");
     }

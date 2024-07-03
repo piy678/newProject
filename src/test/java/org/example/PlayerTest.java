@@ -25,8 +25,7 @@ public class PlayerTest {
 
     @Test
     public void testPlayerConstructorInvalidMarker() {
-        // Assuming that a valid marker should be either 'X' or 'O'
-        // This test checks if the constructor correctly handles an invalid marker
+
         Player player = new Player('A');
         assertEquals('A', player.getMarker(), "The marker should be 'A', even though it's not a typical marker in Tic Tac Toe");
     }
