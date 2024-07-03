@@ -1,10 +1,16 @@
 package org.example;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.util.NoSuchElementException;
+
 import static org.junit.jupiter.api.Assertions.*;
 
-class TicTacToeTest {
+public class TicTacToeTest {
 
     private TicTacToe game;
 
@@ -13,69 +19,78 @@ class TicTacToeTest {
         game = new TicTacToe();
     }
 
-    // Tests for switchCurrentPlayer
+    @Test
+    public void testConstructorInitialization() {
+        assertNotNull(game.player1);
+        assertNotNull(game.player2);
+        assertNotNull(game.currentPlayer);
+        assertNotNull(game.board);
+
+        assertEquals('X', game.player1.getMarker());
+        assertEquals('O', game.player2.getMarker());
+        assertEquals(game.player1, game.currentPlayer);
+        assertFalse(game.board.isFull());
+    }
+
+    @Test
+    public void testGamePlayWithValidMoves() {
+        String input = "0 0\n0 1\n1 1\n0 2\n2 2\n"; // Simulated user input
+        simulateUserInput(input);
+        assertDoesNotThrow(() -> game.start());
+
+        assertTrue(game.hasWinner());
+        assertEquals(game.player1, game.currentPlayer);
+    }
+
+    @Test
+    public void testGamePlayWithInvalidMoves() {
+        String input = "-1 1\n3 3\n0 0\n0 0\n"; // Simulierte Benutzereingabe
+        simulateUserInput(input);
+
+        Assertions.assertThrows(NoSuchElementException.class, () -> game.start());
+
+        // Nachdem eine ungültige Eingabe gemacht wurde, sollte das Spielbrett nicht voll sein
+        assertEquals(game.board.isFull(), false, "Das Spielbrett sollte nicht voll sein");
+        assertFalse(game.hasWinner(), "Es sollte keinen Gewinner geben");
+    }
+
+    @Test
+    public void testConstructorWithInvalidParameters() {
+        assertDoesNotThrow(() -> new TicTacToe()); // Konstruktor sollte keine Ausnahme werfen
+    }
+
     @Test
     public void testSwitchCurrentPlayer() {
+        assertEquals('X', game.currentPlayer.getMarker());
         game.switchCurrentPlayer();
-        assertEquals('O', game.getCurrentPlayer().getMaker());
-        game.switchCurrentPlayer();
-        assertEquals('X', game.getCurrentPlayer().getMaker());
+        assertEquals('O', game.currentPlayer.getMarker());
     }
 
     @Test
-    public void testSwitchCurrentPlayerNotEquals() {
+    public void testSwitchCurrentPlayerTwice() {
         game.switchCurrentPlayer();
-        assertNotEquals('X', game.getCurrentPlayer().getMaker());
         game.switchCurrentPlayer();
-        assertNotEquals('O', game.getCurrentPlayer().getMaker());
+        assertEquals('X', game.currentPlayer.getMarker());
     }
 
-    // Tests for hasWinner
     @Test
-    public void testHasWinnerPositive() {
-        game.getBoard().place(0, 0, 'X');
-        game.getBoard().place(0, 1, 'X');
-        game.getBoard().place(0, 2, 'X');
+    public void testHasWinner() {
+        game.board.place(0, 0, 'X');
+        game.board.place(0, 1, 'X');
+        game.board.place(0, 2, 'X');
         assertTrue(game.hasWinner());
     }
 
     @Test
-    public void testHasWinnerNegative() {
-        game.getBoard().place(0, 0, 'X');
-        game.getBoard().place(0, 1, 'X');
-        game.getBoard().place(1, 1, 'X');
+    public void testNoWinner() {
+        game.board.place(0, 0, 'X');
+        game.board.place(0, 1, 'X');
+        game.board.place(0, 2, 'O');
         assertFalse(game.hasWinner());
     }
 
-    // Tests for getCurrentPlayer
-    @Test
-    public void testGetCurrentPlayerInitial() {
-        assertEquals('X', game.getCurrentPlayer().getMaker());
-    }
-
-    @Test
-    public void testGetCurrentPlayerAfterSwitch() {
-        game.switchCurrentPlayer();
-        assertEquals('O', game.getCurrentPlayer().getMaker());
-    }
-
-    @Test
-    public void testGetCurrentPlayerNotEquals() {
-        assertNotEquals('O', game.getCurrentPlayer().getMaker());
-        game.switchCurrentPlayer();
-        assertNotEquals('X', game.getCurrentPlayer().getMaker());
-    }
-    public void testIsValidMovePositive() {
-        assertTrue(game.isValidMove(0, 0));
-        game.getBoard().place(0, 0, 'X');
-        assertFalse(game.isValidMove(0, 0));
-    }
-
-    @Test
-    public void testIsValidMoveNegative() {
-        assertFalse(game.isValidMove(3, 0));
-        assertFalse(game.isValidMove(-1, 0));
-        assertFalse(game.isValidMove(0, 3));
-        assertFalse(game.isValidMove(0, -1));
+    private void simulateUserInput(String input) {
+        InputStream in = new ByteArrayInputStream(input.getBytes());
+        System.setIn(in);
     }
 }

@@ -2,13 +2,13 @@ package org.example;
 
 
 public class Player {
-    private char maker;
+    private char marker;
 
-    public Player(char maker) {
-        this.maker = maker;
+    public Player(char marker) {
+        this.marker = marker;
     }
 
-    public char getMaker() {
-        return maker;
+    public char getMarker() {
+        return marker;
     }
 }

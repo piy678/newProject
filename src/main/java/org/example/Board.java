@@ -1,7 +1,7 @@
 package org.example;
 
 public class Board {
-    private char[][] cells;
+    char[][] cells;
 
     public Board() {
         cells = new char[3][3];
@@ -12,26 +12,9 @@ public class Board {
         return cells[x][y] == ' ';
     }
 
-    public void place(int x, int y, char maker) {  //maker plazieren
+    public void place(int x, int y, char marker) {
         if (isCellEmpty(x, y)) {
-            cells[x][y] = maker;
-        }
-    }
-
-    public void clear() {   //Spielfeld leeren
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                cells[i][j] = ' ';
-            }
-        }
-    }
-
-    public void print() {
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                System.out.print("|" + cells[i][j]);
-            }
-            System.out.println("|");
+            cells[x][y] = marker;
         }
     }
 
@@ -46,39 +29,22 @@ public class Board {
         return true;
     }
 
-    public boolean checkForWin(char maker) {
-        return (checkRowsForWin(maker) || checkColumnsForWin(maker) || checkDiagonalsForWin(maker));
-    }
-
-    private boolean checkRowsForWin(char maker) {
+    public void clear() {
         for (int i = 0; i < 3; i++) {
-            if (cells[i][0] == maker && cells[i][1] == maker && cells[i][2] == maker) {
-                return true;
+            for (int j = 0; j < 3; j++) {
+                cells[i][j] = ' ';
             }
         }
-        return false;
     }
 
-    public char[][] getCells() {
-        return cells;
-    }
-
-    private boolean checkColumnsForWin(char maker) {
+    public void print() {
         for (int i = 0; i < 3; i++) {
-            if (cells[0][i] == maker && cells[1][i] == maker && cells[2][i] == maker) {
-                return true;
+            for (int j = 0; j < 3; j++) {
+                System.out.print(cells[i][j]);
+                if (j < 2) System.out.print("|");
             }
+            System.out.println();
+            if (i < 2) System.out.println("-----");
         }
-        return false;
-    }
-
-    private boolean checkDiagonalsForWin(char maker) { //
-        if (cells[0][0] == maker && cells[1][1] == maker && cells[2][2] == maker) {
-            return true;
-        }
-        if (cells[0][2] == maker && cells[1][1] == maker && cells[2][0] == maker) {
-            return true;
-        }
-        return false;
     }
 }

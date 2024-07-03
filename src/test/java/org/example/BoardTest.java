@@ -1,80 +1,50 @@
 package org.example;
 
-import org.junit.jupiter.api.BeforeEach;
+import org.example.Board;
 import org.junit.jupiter.api.Test;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+
 import static org.junit.jupiter.api.Assertions.*;
-class BoardTest {
-    private Board board;
 
-    @BeforeEach
-    public void setUp() {
-        board = new Board();
-    }
-
-    // Tests for isCellEmpty
+public class BoardTest {
     @Test
-    public void testIsCellEmpty() {
+    public void testBoardIsCellEmpty() {
+        Board board = new Board();
         assertTrue(board.isCellEmpty(0, 0));
-    }
-
-    @Test
-    public void testIsCellNotEmpty() {
         board.place(0, 0, 'X');
         assertFalse(board.isCellEmpty(0, 0));
     }
 
-    // Tests for place
     @Test
-    public void testPlaceMarker() {
-        board.place(0, 0, 'X');
-        assertEquals('X', board.getCells()[0][0]);
-    }
-
-    @Test
-    public void testPlaceMarkerOnNonEmptyCell() {
-        board.place(0, 0, 'X');
-        board.place(0, 0, 'O');
-        assertNotEquals('O', board.getCells()[0][0]); // should not change
-    }
-
-    // Tests for clear
-    @Test
-    public void testClearBoard() {
-        board.place(0, 0, 'X');
-        board.clear();
-        assertEquals(' ', board.getCells()[0][0]);
-    }
-
-    @Test
-    public void testClearBoardMultipleCells() {
-        board.place(0, 0, 'X');
+    public void testBoardIsCellEmptyNegative() {
+        Board board = new Board();
+        assertTrue(board.isCellEmpty(1, 1));
         board.place(1, 1, 'O');
-        board.clear();
-        assertEquals(' ', board.getCells()[0][0]);
-        assertEquals(' ', board.getCells()[1][1]);
+        assertFalse(board.isCellEmpty(1, 1));
     }
 
-    // Tests for checkForWin
     @Test
-    public void testWinConditionsRow() {
+    public void testBoardPlace() {
+        Board board = new Board();
         board.place(0, 0, 'X');
-        board.place(0, 1, 'X');
-        board.place(0, 2, 'X');
-        assertTrue(board.checkForWin('X'));
+        assertFalse(board.isCellEmpty(0, 0));
+        assertEquals('X', board.cells[0][0]);
     }
 
     @Test
-    public void testNoWinConditions() {
+    public void testBoardPlaceNegative() {
+        Board board = new Board();
         board.place(0, 0, 'X');
-        board.place(0, 1, 'X');
-        board.place(1, 1, 'X');
-        assertFalse(board.checkForWin('X'));
+        board.place(0, 0, 'O'); // Attempt to place on an already filled cell
+        assertEquals('X', board.cells[0][0]); // Should remain 'X'
     }
 
-    // Tests for isFull
     @Test
-    public void testIsFull() {
+    public void testBoardIsFull() {
+        Board board = new Board();
+        assertFalse(board.isFull());
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 board.place(i, j, 'X');
@@ -84,8 +54,75 @@ class BoardTest {
     }
 
     @Test
-    public void testIsNotFull() {
+    public void testBoardIsFullNegative() {
+        Board board = new Board();
         board.place(0, 0, 'X');
         assertFalse(board.isFull());
+    }
+
+    @Test
+    public void testBoardClear() {
+        Board board = new Board();
+        board.place(0, 0, 'X');
+        board.clear();
+        assertTrue(board.isCellEmpty(0, 0));
+    }
+
+    @Test
+    public void testBoardClearNegative() {
+        Board board = new Board();
+        board.place(0, 0, 'X');
+        board.clear();
+        assertEquals(' ', board.cells[0][0]);
+    }
+    @Test
+    public void testBoardPrint() {
+        Board board = new Board();
+        board.place(0, 0, 'X');
+        board.place(1, 1, 'O');
+
+        // Capture the output
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        PrintStream originalOut = System.out;
+        System.setOut(new PrintStream(outContent));
+
+        board.print();
+
+        // Restore the original System.out
+        System.setOut(originalOut);
+
+        String expectedOutput =
+                "X| | \n" +
+                        "-----\n" +
+                        " |O| \n" +
+                        "-----\n" +
+                        " | | \n";
+
+        assertEquals(expectedOutput, outContent.toString());
+    }
+    @Test
+    public void testBoardPrintNegative() {
+        Board board = new Board();
+        board.place(0, 0, 'X');
+        board.place(1, 1, 'O');
+
+        // Capture the output
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        PrintStream originalOut = System.out;
+        System.setOut(new PrintStream(outContent));
+
+        board.print();
+
+        // Restore the original System.out
+        System.setOut(originalOut);
+
+        String incorrectOutput =
+                "O| | \n" +
+                        "-----\n" +
+                        " |X| \n" +
+                        "-----\n" +
+                        " | | \n";  // Intentionally incorrect expected output
+
+        assertNotEquals(incorrectOutput, outContent.toString());
     }
 }
