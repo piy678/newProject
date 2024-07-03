@@ -83,8 +83,6 @@ public class TicTacToe {
                 return true;
             }
         }
-
-
         if ((cells[0][0] == cells[1][1] && cells[1][1] == cells[2][2] && cells[0][0] != ' ') ||
                 (cells[0][2] == cells[1][1] && cells[1][1] == cells[2][0] && cells[0][2] != ' ')) {
             return true;
